@@ -39,11 +39,11 @@
   },
   "files": [
     "dist/",
-    "src/",
-    "index.js"
+    "src/"
   ],
   "keywords": [
     "SIBA",
+    "SEF",
     "alojamento-local",
     "portugal",
     "accomodation-bulletin"
