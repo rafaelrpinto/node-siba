@@ -27,7 +27,7 @@ This module exports two functions: `buildSIBARequestXML` and `parseSIBAXMLRespon
 This just builds the SOAP XML request.
 
 ```javascript
-import { buildSIBARequestXML } from "node-siba";
+import { buildSIBARequestXML, GuestDocumentType } from "node-siba";
 
 const bulletin = {
   number: 1,
