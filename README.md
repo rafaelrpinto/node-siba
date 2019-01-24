@@ -1,6 +1,6 @@
 # node-siba
 
-Utility library that creates a SIBA webservice request without coupling with a HTTP/SOAP clients.
+Utility library that creates a SIBA webservice request without coupling with HTTP/SOAP clients.
 
 **The minimum Node.js version required by this module is 6.x.**
 
