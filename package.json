@@ -1,0 +1,51 @@
+{
+  "name": "node-siba",
+  "version": "0.0.1",
+  "description": "Utility library that creates a SIBA webservice request without coupling with a HTTP/SOAP clients.",
+  "author": "Rafael Pinto <meuemail@posteo.pt>",
+  "license": "MIT",
+  "url": "https://github.com/rafaelrpinto/node-siba",
+  "bugs": {
+    "url": "https://github.com/rafaelrpinto/node-siba/issues",
+    "email": "meuemail@posteo.pt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rafaelrpinto/node-siba.git"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "./node_modules/typescript/bin/tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.13",
+    "axios": "^0.18.0",
+    "jest": "^23.6.0",
+    "node-fetch": "^2.3.0",
+    "prettier": "^1.16.1",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.12.1",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.17.0",
+    "typescript": "^3.2.4"
+  },
+  "dependencies": {
+    "@types/node": "^10.12.18",
+    "xml-js": "^1.6.9"
+  },
+  "files": [
+    "dist/",
+    "src/",
+    "index.js"
+  ],
+  "keywords": [
+    "SIBA",
+    "alojamento-local",
+    "portugal",
+    "accomodation-bulletin"
+  ]
+}
