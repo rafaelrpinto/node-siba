@@ -2,8 +2,6 @@
 
 Utility library that creates a SIBA webservice request without coupling with HTTP/SOAP clients.
 
-**The minimum Node.js version required by this module is 6.x.**
-
 ## Motivation
 
 This project's goal is to facilitate the integration with SIBA, the Portuguese border control system for foreigns seeking accomodation in Portugal (Hotels or Alojamento Local). More info at [SIBA's Portal](https://siba.sef.pt/).
