@@ -1,5 +1,6 @@
 import xmlJs = require("xml-js");
 import { AccommodationBulletin, SIBAResponse } from "./types";
+import { getMaxListeners } from "cluster";
 
 // internal types used to generate the XML
 interface LooseObject {
@@ -22,6 +23,21 @@ interface SOAPEnvelope {
   };
 }
 
+interface BoletimAlojamento {
+  Apelido: string;
+  Nome: string;
+  Nacionalidade: string;
+  Data_Nascimento: string;
+  Local_Nascimento?: string;
+  Documento_Identificacao: string;
+  Pais_Emissor_Documento: string;
+  Tipo_Documento: string;
+  Data_Entrada: string;
+  Data_Saida?: string;
+  Pais_Residencia_Origem: string;
+  Local_Residencia_Origem: string;
+}
+
 interface SOAPBulletins {
   _declaration: { _attributes: { version: string; encoding: string } };
   MovimentoBAL: {
@@ -42,20 +58,7 @@ interface SOAPBulletins {
       Nome_Contacto: string;
       Email_Contacto: string;
     };
-    Boletim_Alojamento: {
-      Apelido: string;
-      Nome: string;
-      Nacionalidade: string;
-      Data_Nascimento: string;
-      Local_Nascimento?: string;
-      Documento_Identificacao: string;
-      Pais_Emissor_Documento: string;
-      Tipo_Documento: string;
-      Data_Entrada: string;
-      Data_Saida?: string;
-      Pais_Residencia_Origem: string;
-      Local_Residencia_Origem: string;
-    };
+    Boletim_Alojamento: BoletimAlojamento[];
     Envio: {
       Numero_Ficheiro: number;
       Data_Movimento: string;
@@ -85,8 +88,7 @@ function getFieldValue(obj: LooseObject, fieldName: string): any {
 export function buildSIBABulletins(
   bulletin: AccommodationBulletin
 ): SOAPBulletins {
-  const { hotelUnit, guest } = bulletin;
-  const { document } = guest;
+  const { hotelUnit, guests } = bulletin;
 
   return {
     _declaration: { _attributes: { version: "1.0", encoding: "utf-8" } },
@@ -108,20 +110,20 @@ export function buildSIBABulletins(
         Nome_Contacto: hotelUnit.contactName,
         Email_Contacto: hotelUnit.contactEmail
       },
-      Boletim_Alojamento: {
+      Boletim_Alojamento: guests.map(guest => ({
         Apelido: guest.firstName,
         Nome: guest.surname || " ",
         Nacionalidade: guest.nationality,
         Data_Nascimento: guest.birthDate && guest.birthDate.toISOString(),
         Local_Nascimento: guest.birthPlace,
-        Documento_Identificacao: document.number,
-        Pais_Emissor_Documento: document.issuingCountry,
-        Tipo_Documento: document.type,
+        Documento_Identificacao: guest.document.number,
+        Pais_Emissor_Documento: guest.document.issuingCountry,
+        Tipo_Documento: guest.document.type,
         Data_Entrada: guest.checkInDate && guest.checkInDate.toISOString(),
         Data_Saida: guest.checkOutDate && guest.checkOutDate.toISOString(),
         Pais_Residencia_Origem: guest.countryOfResidence,
         Local_Residencia_Origem: guest.placeOfResidence
-      },
+      })),
       Envio: {
         Numero_Ficheiro: bulletin.number,
         Data_Movimento: bulletin.issueDate && bulletin.issueDate.toISOString()
@@ -170,7 +172,12 @@ export function buildSIBASoapEnvelope(
  */
 export function buildSIBARequestXML(bulletin: AccommodationBulletin): string {
   // basic validation just to make sure anything breaks
-  if (!bulletin || !bulletin.guest || !bulletin.hotelUnit) {
+  if (
+    !bulletin ||
+    !bulletin.guests ||
+    !bulletin.guests.length ||
+    !bulletin.hotelUnit
+  ) {
     throw new Error("Incomplete bulletin.");
   }
 

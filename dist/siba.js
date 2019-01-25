@@ -18,8 +18,7 @@ function getFieldValue(obj, fieldName) {
  * @param bulletin The accommodation bulletin.
  */
 function buildSIBABulletins(bulletin) {
-    const { hotelUnit, guest } = bulletin;
-    const { document } = guest;
+    const { hotelUnit, guests } = bulletin;
     return {
         _declaration: { _attributes: { version: "1.0", encoding: "utf-8" } },
         MovimentoBAL: {
@@ -40,20 +39,20 @@ function buildSIBABulletins(bulletin) {
                 Nome_Contacto: hotelUnit.contactName,
                 Email_Contacto: hotelUnit.contactEmail
             },
-            Boletim_Alojamento: {
+            Boletim_Alojamento: guests.map(guest => ({
                 Apelido: guest.firstName,
                 Nome: guest.surname || " ",
                 Nacionalidade: guest.nationality,
                 Data_Nascimento: guest.birthDate && guest.birthDate.toISOString(),
                 Local_Nascimento: guest.birthPlace,
-                Documento_Identificacao: document.number,
-                Pais_Emissor_Documento: document.issuingCountry,
-                Tipo_Documento: document.type,
+                Documento_Identificacao: guest.document.number,
+                Pais_Emissor_Documento: guest.document.issuingCountry,
+                Tipo_Documento: guest.document.type,
                 Data_Entrada: guest.checkInDate && guest.checkInDate.toISOString(),
                 Data_Saida: guest.checkOutDate && guest.checkOutDate.toISOString(),
                 Pais_Residencia_Origem: guest.countryOfResidence,
                 Local_Residencia_Origem: guest.placeOfResidence
-            },
+            })),
             Envio: {
                 Numero_Ficheiro: bulletin.number,
                 Data_Movimento: bulletin.issueDate && bulletin.issueDate.toISOString()
@@ -98,7 +97,10 @@ exports.buildSIBASoapEnvelope = buildSIBASoapEnvelope;
  */
 function buildSIBARequestXML(bulletin) {
     // basic validation just to make sure anything breaks
-    if (!bulletin || !bulletin.guest || !bulletin.hotelUnit) {
+    if (!bulletin ||
+        !bulletin.guests ||
+        !bulletin.guests.length ||
+        !bulletin.hotelUnit) {
         throw new Error("Incomplete bulletin.");
     }
     return xmlJs.js2xml(buildSIBASoapEnvelope(bulletin), {

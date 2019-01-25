@@ -25,22 +25,40 @@ const bulletin: AccommodationBulletin = {
     contactName: "A Name",
     contactEmail: "email@test.com"
   },
-  guest: {
-    firstName: "John",
-    surname: "Doe",
-    nationality: "AFG",
-    birthDate: new Date("2009-01-01T10:00:00Z"),
-    birthPlace: "A place",
-    checkInDate: new Date("2019-01-01T10:00:00Z"),
-    checkOutDate: new Date("2019-01-03T10:00:00Z"),
-    countryOfResidence: "AFG",
-    placeOfResidence: "A place",
-    document: {
-      number: "ABCD1234",
-      issuingCountry: "AFG",
-      type: GuestDocumentType.PASSPORT
+  guests: [
+    {
+      firstName: "John",
+      surname: "Doe",
+      nationality: "AFG",
+      birthDate: new Date("2009-01-01T10:00:00Z"),
+      birthPlace: "A place",
+      checkInDate: new Date("2019-01-01T10:00:00Z"),
+      checkOutDate: new Date("2019-01-03T10:00:00Z"),
+      countryOfResidence: "AFG",
+      placeOfResidence: "A place",
+      document: {
+        number: "ABCD1234",
+        issuingCountry: "AFG",
+        type: GuestDocumentType.PASSPORT
+      }
+    },
+    {
+      firstName: "Mary",
+      surname: "Anne",
+      nationality: "AFG",
+      birthDate: new Date("2009-01-01T10:00:00Z"),
+      birthPlace: "A place",
+      checkInDate: new Date("2019-01-01T10:00:00Z"),
+      checkOutDate: new Date("2019-01-03T10:00:00Z"),
+      countryOfResidence: "AFG",
+      placeOfResidence: "A place",
+      document: {
+        number: "1234ABCD",
+        issuingCountry: "AFG",
+        type: GuestDocumentType.PASSPORT
+      }
     }
-  }
+  ]
 };
 
 test("should generate a valid SIBA envelope", () => {
@@ -77,7 +95,7 @@ test("should generate a valid SIBA envelope", () => {
 
   expect(MovimentoBAL).toBeDefined();
 
-  const { Unidade_Hoteleira, Boletim_Alojamento, Envio } = MovimentoBAL;
+  const { Unidade_Hoteleira, Envio } = MovimentoBAL;
 
   expect(Unidade_Hoteleira.Abreviatura.value).toBe(
     bulletin.hotelUnit.abbreviation
@@ -104,40 +122,30 @@ test("should generate a valid SIBA envelope", () => {
   expect(Unidade_Hoteleira.Telefone.value).toBe(bulletin.hotelUnit.phone);
   expect(Unidade_Hoteleira.Zona_Postal.value).toBe(bulletin.hotelUnit.zipZone);
 
-  expect(Boletim_Alojamento.Apelido.value).toBe(bulletin.guest.firstName);
-  expect(Boletim_Alojamento.Data_Entrada.value).toBe(
-    bulletin.guest.checkInDate.toISOString()
-  );
-  expect(Boletim_Alojamento.Data_Nascimento.value).toBe(
-    bulletin.guest.birthDate.toISOString()
-  );
+  expect(Number(Envio.Numero_Ficheiro.value)).toBe(bulletin.number);
+  expect(Envio.Data_Movimento.value).toBe(bulletin.issueDate.toISOString());
 
-  expect(Boletim_Alojamento.Data_Saida.value).toBe(
-    bulletin.guest.checkOutDate && bulletin.guest.checkOutDate.toISOString()
-  );
+  bulletin.guests.forEach((guest, i) => {
+    const boletim = MovimentoBAL.Boletim_Alojamento[i];
+    expect(boletim.Apelido.value).toBe(guest.firstName);
+    expect(boletim.Data_Entrada.value).toBe(guest.checkInDate.toISOString());
+    expect(boletim.Data_Nascimento.value).toBe(guest.birthDate.toISOString());
 
-  expect(Boletim_Alojamento.Documento_Identificacao.value).toBe(
-    bulletin.guest.document.number
-  );
-  expect(Boletim_Alojamento.Local_Nascimento.value).toBe(
-    bulletin.guest.birthPlace
-  );
-  expect(Boletim_Alojamento.Local_Residencia_Origem.value).toBe(
-    bulletin.guest.placeOfResidence
-  );
-  expect(Boletim_Alojamento.Nacionalidade.value).toBe(
-    bulletin.guest.nationality
-  );
-  expect(Boletim_Alojamento.Nome.value).toBe(bulletin.guest.surname);
-  expect(Boletim_Alojamento.Pais_Emissor_Documento.value).toBe(
-    bulletin.guest.document.issuingCountry
-  );
-  expect(Boletim_Alojamento.Pais_Residencia_Origem.value).toBe(
-    bulletin.guest.countryOfResidence
-  );
-  expect(Boletim_Alojamento.Tipo_Documento.value).toBe(
-    bulletin.guest.document.type
-  );
+    expect(boletim.Data_Saida.value).toBe(
+      guest.checkOutDate && guest.checkOutDate.toISOString()
+    );
+
+    expect(boletim.Documento_Identificacao.value).toBe(guest.document.number);
+    expect(boletim.Local_Nascimento.value).toBe(guest.birthPlace);
+    expect(boletim.Local_Residencia_Origem.value).toBe(guest.placeOfResidence);
+    expect(boletim.Nacionalidade.value).toBe(guest.nationality);
+    expect(boletim.Nome.value).toBe(guest.surname);
+    expect(boletim.Pais_Emissor_Documento.value).toBe(
+      guest.document.issuingCountry
+    );
+    expect(boletim.Pais_Residencia_Origem.value).toBe(guest.countryOfResidence);
+    expect(boletim.Tipo_Documento.value).toBe(guest.document.type);
+  });
 });
 
 test("should parse SIBA success response correctly", () => {
@@ -174,6 +182,13 @@ test("should parse SIBA error response correctly", () => {
   expect(sibaResponse.errorMessage).toBe(
     "Não foi possível autenticar a Unidade Hoteleira"
   );
+});
+
+test("should execute a basic validation on bulleting structure", () => {
+  expect(() => {
+    // @ts-ignore
+    buildSIBARequestXML({});
+  }).toThrowError("Incomplete bulletin.");
 });
 
 test("should receive success from DEV endpoint", async () => {

@@ -43,7 +43,7 @@ export interface AccommodationBulletin {
   number: number;
   issueDate: Date;
   hotelUnit: HotelUnit;
-  guest: Guest;
+  guests: Guest[];
 }
 
 export interface SIBAResponse {

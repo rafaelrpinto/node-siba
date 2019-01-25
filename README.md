@@ -49,22 +49,40 @@ const bulletin = {
     contactName: "A Name",
     contactEmail: "email@test.com"
   },
-  guest: {
-    firstName: "John",
-    surname: "Doe",
-    nationality: "AFG",
-    birthDate: new Date("2009-01-01T10:00:00Z"),
-    birthPlace: "A place",
-    checkInDate: new Date("2019-01-01T10:00:00Z"),
-    checkOutDate: new Date("2019-01-03T10:00:00Z"),
-    countryOfResidence: "AFG",
-    placeOfResidence: "A place",
-    document: {
-      number: "ABCD1234",
-      issuingCountry: "AFG",
-      type: GuestDocumentType.PASSPORT
+  guests: [
+    {
+      firstName: "John",
+      surname: "Doe",
+      nationality: "AFG",
+      birthDate: new Date("2009-01-01T10:00:00Z"),
+      birthPlace: "A place",
+      checkInDate: new Date("2019-01-01T10:00:00Z"),
+      checkOutDate: new Date("2019-01-03T10:00:00Z"),
+      countryOfResidence: "AFG",
+      placeOfResidence: "A place",
+      document: {
+        number: "ABCD1234",
+        issuingCountry: "AFG",
+        type: GuestDocumentType.PASSPORT
+      }
+    },
+    {
+      firstName: "Mary",
+      surname: "Anne",
+      nationality: "AFG",
+      birthDate: new Date("2009-01-01T10:00:00Z"),
+      birthPlace: "A place",
+      checkInDate: new Date("2019-01-01T10:00:00Z"),
+      checkOutDate: new Date("2019-01-03T10:00:00Z"),
+      countryOfResidence: "AFG",
+      placeOfResidence: "A place",
+      document: {
+        number: "1234ABCD",
+        issuingCountry: "AFG",
+        type: GuestDocumentType.PASSPORT
+      }
     }
-  }
+  ]
 };
 
 const soapRequest = buildSIBARequestXML(bulletin);
