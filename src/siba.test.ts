@@ -3,7 +3,7 @@ import xmlJs = require("xml-js");
 import { AccommodationBulletin, GuestDocumentType } from "./types";
 import {
   buildSIBASoapEnvelope,
-  buildSIBARequestXML,
+  buildSIBAXMLRequest,
   parseSIBAXMLResponse
 } from "./siba";
 
@@ -187,12 +187,12 @@ test("should parse SIBA error response correctly", () => {
 test("should execute a basic validation on bulleting structure", () => {
   expect(() => {
     // @ts-ignore
-    buildSIBARequestXML({});
+    buildSIBAXMLRequest({});
   }).toThrowError("Incomplete bulletin.");
 });
 
 test("should receive success from DEV endpoint", async () => {
-  const body = buildSIBARequestXML(bulletin);
+  const body = buildSIBAXMLRequest(bulletin);
 
   const response = await fetch(
     "https://siba.sef.pt/bawsdev/boletinsalojamento.asmx",

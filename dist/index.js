@@ -5,6 +5,6 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var siba_1 = require("./siba");
 exports.parseSIBAXMLResponse = siba_1.parseSIBAXMLResponse;
-exports.buildSIBARequestXML = siba_1.buildSIBARequestXML;
+exports.buildSIBAXMLRequest = siba_1.buildSIBAXMLRequest;
 __export(require("./types"));
 //# sourceMappingURL=index.js.map

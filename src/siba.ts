@@ -1,6 +1,5 @@
-import xmlJs = require("xml-js");
+import { js2xml, xml2js } from "xml-js";
 import { AccommodationBulletin, SIBAResponse } from "./types";
-import { getMaxListeners } from "cluster";
 
 // internal types used to generate the XML
 interface LooseObject {
@@ -141,7 +140,7 @@ export function buildSIBASoapEnvelope(
 ): SOAPEnvelope {
   const { hotelUnit } = bulletin;
 
-  const bulletinXML = xmlJs.js2xml(buildSIBABulletins(bulletin), {
+  const bulletinXML = js2xml(buildSIBABulletins(bulletin), {
     compact: true
   });
 
@@ -170,7 +169,7 @@ export function buildSIBASoapEnvelope(
  * Generates the XML SOAP envelope with the bulletin request.
  * @param bulletin The accommodation bulletin.
  */
-export function buildSIBARequestXML(bulletin: AccommodationBulletin): string {
+export function buildSIBAXMLRequest(bulletin: AccommodationBulletin): string {
   // basic validation just to make sure anything breaks
   if (
     !bulletin ||
@@ -181,7 +180,7 @@ export function buildSIBARequestXML(bulletin: AccommodationBulletin): string {
     throw new Error("Incomplete bulletin.");
   }
 
-  return xmlJs.js2xml(buildSIBASoapEnvelope(bulletin), {
+  return js2xml(buildSIBASoapEnvelope(bulletin), {
     compact: true
   });
 }
@@ -191,7 +190,7 @@ export function buildSIBARequestXML(bulletin: AccommodationBulletin): string {
  * @param responseText Raw response text
  */
 export function parseSIBAXMLResponse(responseText: string): SIBAResponse {
-  const soapResponse = xmlJs.xml2js(responseText, {
+  const soapResponse = xml2js(responseText, {
     compact: true,
     textKey: "value"
   });
@@ -209,7 +208,7 @@ export function parseSIBAXMLResponse(responseText: string): SIBAResponse {
     };
   }
 
-  const details: LooseObject = xmlJs.xml2js(result.value, {
+  const details: LooseObject = xml2js(result.value, {
     compact: true,
     textKey: "value"
   });

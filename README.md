@@ -24,12 +24,12 @@ npm install node-siba
 
 ## Usage
 
-This module exports two functions: `buildSIBARequestXML` and `parseSIBAXMLResponse`.
+This module exports two functions: `buildSIBAXMLRequest` and `parseSIBAXMLResponse`.
 
 This just builds the SOAP XML request.
 
 ```javascript
-import { buildSIBARequestXML, GuestDocumentType } from "node-siba";
+import { buildSIBAXMLRequest, GuestDocumentType } from "node-siba";
 
 const bulletin = {
   number: 1,
@@ -85,7 +85,7 @@ const bulletin = {
   ]
 };
 
-const soapRequest = buildSIBARequestXML(bulletin);
+const soapRequest = buildSIBAXMLRequest(bulletin);
 console.log(soapRequest);
 ```
 
@@ -109,7 +109,7 @@ With the request built it's possible to call SIBA's webservice using any HTTP cl
 
 ```javascript
 import {
-  buildSIBARequestXML,
+  buildSIBAXMLRequest,
   parseSIBAXMLResponse,
   GuestDocumentType
 } from "node-siba";
@@ -120,7 +120,7 @@ const bulletin = {
 };
 
 // generates the SOAP Envelope
-const body = buildSIBARequestXML(bulletin);
+const body = buildSIBAXMLRequest(bulletin);
 
 // calls SIBA's dev environment using fetch (could be done with axios, request, etc)
 const response = await fetch(

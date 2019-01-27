@@ -1,2 +1,2 @@
-export { parseSIBAXMLResponse, buildSIBARequestXML } from "./siba";
+export { parseSIBAXMLResponse, buildSIBAXMLRequest } from "./siba";
 export * from "./types";

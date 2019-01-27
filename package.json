@@ -1,6 +1,6 @@
 {
   "name": "node-siba",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Utility library that creates a SIBA webservice request without coupling with HTTP/SOAP clients.",
   "author": "Rafael Pinto <meuemail@posteo.pt>",
   "license": "MIT",
@@ -17,8 +17,9 @@
     "node": ">=6.0.0"
   },
   "main": "dist/index.js",
+  "types": "src/types.ts",
   "scripts": {
-    "build": "./node_modules/typescript/bin/tsc",
+    "build": "rm -rf ./dist && ./node_modules/typescript/bin/tsc",
     "test": "jest",
     "test-ci": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },

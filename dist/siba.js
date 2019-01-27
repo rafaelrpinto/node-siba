@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const xmlJs = require("xml-js");
+const xml_js_1 = require("xml-js");
 /**
  * Looks for the value of a field of the object ignoring XML prefixes.
  * @param obj Response object or nested object
@@ -67,7 +67,7 @@ exports.buildSIBABulletins = buildSIBABulletins;
  */
 function buildSIBASoapEnvelope(bulletin) {
     const { hotelUnit } = bulletin;
-    const bulletinXML = xmlJs.js2xml(buildSIBABulletins(bulletin), {
+    const bulletinXML = xml_js_1.js2xml(buildSIBABulletins(bulletin), {
         compact: true
     });
     return {
@@ -95,7 +95,7 @@ exports.buildSIBASoapEnvelope = buildSIBASoapEnvelope;
  * Generates the XML SOAP envelope with the bulletin request.
  * @param bulletin The accommodation bulletin.
  */
-function buildSIBARequestXML(bulletin) {
+function buildSIBAXMLRequest(bulletin) {
     // basic validation just to make sure anything breaks
     if (!bulletin ||
         !bulletin.guests ||
@@ -103,17 +103,17 @@ function buildSIBARequestXML(bulletin) {
         !bulletin.hotelUnit) {
         throw new Error("Incomplete bulletin.");
     }
-    return xmlJs.js2xml(buildSIBASoapEnvelope(bulletin), {
+    return xml_js_1.js2xml(buildSIBASoapEnvelope(bulletin), {
         compact: true
     });
 }
-exports.buildSIBARequestXML = buildSIBARequestXML;
+exports.buildSIBAXMLRequest = buildSIBAXMLRequest;
 /**
  * Parses the SIBA SOAP response.
  * @param responseText Raw response text
  */
 function parseSIBAXMLResponse(responseText) {
-    const soapResponse = xmlJs.xml2js(responseText, {
+    const soapResponse = xml_js_1.xml2js(responseText, {
         compact: true,
         textKey: "value"
     });
@@ -128,7 +128,7 @@ function parseSIBAXMLResponse(responseText) {
             code: "0"
         };
     }
-    const details = xmlJs.xml2js(result.value, {
+    const details = xml_js_1.xml2js(result.value, {
         compact: true,
         textKey: "value"
     });
