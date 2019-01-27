@@ -1,6 +1,6 @@
 # node-siba
 
-![Build Status](https://travis-ci.org/rafaelrpinto/node-siba.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/rafaelrpinto/node-siba/badge.svg?branch=master)](https://coveralls.io/github/rafaelrpinto/node-siba?branch=master) [![Code Climate](https://codeclimate.com/github/rafaelrpinto/node-siba.svg)](https://codeclimate.com/github/rafaelrpinto/node-siba)
+![Build Status](https://travis-ci.org/rafaelrpinto/node-siba.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/rafaelrpinto/node-siba/badge.svg?branch=master)](https://coveralls.io/github/rafaelrpinto/node-siba?branch=master) [![Code Climate](https://codeclimate.com/github/rafaelrpinto/node-siba.svg)](https://codeclimate.com/github/rafaelrpinto/node-siba) ![Dependencies](https://david-dm.org/rafaelrpinto/node-siba.svg)
 
 Utility library that creates a SIBA webservice request without coupling with HTTP/SOAP clients.
 
