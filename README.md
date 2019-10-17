@@ -2,13 +2,13 @@
 
 ![Build Status](https://travis-ci.org/rafaelrpinto/node-siba.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/rafaelrpinto/node-siba/badge.svg?branch=master)](https://coveralls.io/github/rafaelrpinto/node-siba?branch=master) [![Code Climate](https://codeclimate.com/github/rafaelrpinto/node-siba.svg)](https://codeclimate.com/github/rafaelrpinto/node-siba) ![Dependencies](https://david-dm.org/rafaelrpinto/node-siba.svg)
 
-Utility library that creates a SIBA webservice request without coupling with HTTP/SOAP clients.
+Utility library that creates a SIBA web service request without coupling with HTTP/SOAP clients.
 
 ## Motivation
 
-This project's goal is to facilitate the integration with SIBA, the Portuguese border control system for foreigns seeking accomodation in Portugal (Hotels or Alojamento Local). More info at [SIBA's Portal](https://siba.sef.pt/).
+This project's goal is to facilitate the integration with SIBA, the Portuguese border control system for foreigns seeking accommodation  in Portugal (Hotels or Alojamento Local). More info at [SIBA's Portal](https://siba.sef.pt/).
 
-Since each project may make HTTP requests using different libraries / versions this project is limited to generating the webservice SOAP request and the model involved in the task.
+Since each project may make HTTP requests using different libraries/versions this project is limited to generating the web service SOAP request and the model involved in the task.
 
 ## Installation
 
@@ -26,7 +26,7 @@ npm install node-siba
 
 This module exports two functions: `buildSIBAXMLRequest` and `parseSIBAXMLResponse`.
 
-This just builds the SOAP XML request.
+The following builds the SOAP XML request:
 
 ```javascript
 import { buildSIBAXMLRequest, GuestDocumentType } from "node-siba";
@@ -105,7 +105,7 @@ Console output:
 </Envelope>
 ```
 
-With the request built it's possible to call SIBA's webservice using any HTTP client, ex:
+With the request built it's possible to call SIBA's web service using any HTTP client, ex:
 
 ```javascript
 import {
@@ -142,7 +142,7 @@ const sibaREsponse = parseSIBAXMLResponse(xmlResponse);
 console.log(sibaREsponse);
 ```
 
-SIBA's response object has the folowing structure:
+SIBA's response object has the following structure:
 
 ```typescript
 interface SIBAResponse {
