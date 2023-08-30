@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-import xmlJs = require("xml-js");
+const xmlJs = require("xml-js");
 import { AccommodationBulletin, GuestDocumentType } from "./types";
 import {
   buildSIBASoapEnvelope,
@@ -127,7 +127,7 @@ test("should generate a valid SIBA envelope", () => {
 
   bulletin.guests.forEach((guest, i) => {
     const boletim = MovimentoBAL.Boletim_Alojamento[i];
-    expect(boletim.Apelido.value).toBe(guest.firstName);
+    expect(boletim.Apelido.value).toBe(guest.surname);
     expect(boletim.Data_Entrada.value).toBe(guest.checkInDate.toISOString());
     expect(boletim.Data_Nascimento.value).toBe(guest.birthDate.toISOString());
 
@@ -139,7 +139,7 @@ test("should generate a valid SIBA envelope", () => {
     expect(boletim.Local_Nascimento.value).toBe(guest.birthPlace);
     expect(boletim.Local_Residencia_Origem.value).toBe(guest.placeOfResidence);
     expect(boletim.Nacionalidade.value).toBe(guest.nationality);
-    expect(boletim.Nome.value).toBe(guest.surname);
+    expect(boletim.Nome.value).toBe(guest.firstName);
     expect(boletim.Pais_Emissor_Documento.value).toBe(
       guest.document.issuingCountry
     );

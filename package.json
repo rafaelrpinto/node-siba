@@ -1,6 +1,6 @@
 {
   "name": "node-siba",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Utility library that creates a SIBA webservice request without coupling with HTTP/SOAP clients.",
   "author": "Rafael Pinto <meuemail@posteo.pt>",
   "license": "MIT",
