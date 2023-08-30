@@ -40,8 +40,8 @@ function buildSIBABulletins(bulletin) {
                 Email_Contacto: hotelUnit.contactEmail
             },
             Boletim_Alojamento: guests.map(guest => ({
-                Apelido: guest.firstName,
-                Nome: guest.surname || " ",
+                Apelido: guest.surname ? guest.surname : guest.firstName,
+                Nome: guest.surname ? guest.firstName : " ",
                 Nacionalidade: guest.nationality,
                 Data_Nascimento: guest.birthDate && guest.birthDate.toISOString(),
                 Local_Nascimento: guest.birthPlace,
