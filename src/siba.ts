@@ -110,8 +110,8 @@ export function buildSIBABulletins(
         Email_Contacto: hotelUnit.contactEmail
       },
       Boletim_Alojamento: guests.map(guest => ({
-        Apelido: guest.firstName,
-        Nome: guest.surname || " ",
+        Apelido: guest.surname ? guest.surname : guest.firstName, // if surname exists use surname otherwise use firstName because it only has 1 name
+        Nome: guest.surname ? guest.firstName : " ", // if surname exists use firstName otherwise this field must be set with a space
         Nacionalidade: guest.nationality,
         Data_Nascimento: guest.birthDate && guest.birthDate.toISOString(),
         Local_Nascimento: guest.birthPlace,
